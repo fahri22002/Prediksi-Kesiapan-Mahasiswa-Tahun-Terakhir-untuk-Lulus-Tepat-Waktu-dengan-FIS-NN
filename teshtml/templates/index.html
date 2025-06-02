@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediksi Kategori Mahasiswa</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#f4ae00',
+                        background: '#FAFAFA'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="min-h-screen bg-[#FAFAFA]">
+    <div class="container mx-auto px-4 py-8 max-w-md">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <div class="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center shadow-lg bg-[#f4ae00]">
+                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                </svg>
+            </div>
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">Prediksi Kategori Mahasiswa</h2>
+            <p class="text-gray-600 text-sm">Masukkan data mahasiswa untuk mendapatkan prediksi kategori</p>
+        </div>
+
+        <!-- Form Card -->
+        <div class="bg-[#FAFAFA] rounded-2xl shadow-xl p-6 mb-6">
+            <form method="post" class="space-y-5">
+                <!-- IPK Input -->
+                <div class="space-y-2">
+                    <label class="block text-sm font-semibold text-gray-700">
+                        IPK
+                    </label>
+                    <div class="relative">
+                        <input type="number" 
+                               name="ipk" 
+                               step="0.01" 
+                               required 
+                               placeholder="Contoh: 3.75"
+                               class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:border-[#f4ae00] focus:ring-[#f4ae00] transition-all duration-200 text-gray-800 placeholder-gray-400"
+                               >
+                        <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                            <span class="text-gray-400 text-sm">/ 4.0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Progress Input -->
+                <div class="space-y-2">
+                    <label class="block text-sm font-semibold text-gray-700">
+                        Progress (%)
+                    </label>
+                    <input type="number" 
+                           name="progress" 
+                           required 
+                           placeholder="Contoh: 75"
+                           min="0" 
+                           max="100"
+                           class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:border-[#f4ae00] focus:ring-[#f4ae00] transition-all duration-200 text-gray-800 placeholder-gray-400"
+                           >
+                </div>
+
+                <!-- Kehadiran Input -->
+                <div class="space-y-2">
+                    <label class="block text-sm font-semibold text-gray-700">
+                        Kehadiran (%)
+                    </label>
+                    <input type="number" 
+                           name="kehadiran" 
+                           required 
+                           placeholder="Contoh: 85"
+                           min="0" 
+                           max="100"
+                           class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:border-[#f4ae00] focus:ring-[#f4ae00] transition-all duration-200 text-gray-800 placeholder-gray-400"
+                           >
+                </div>
+
+                <!-- Organisasi Input -->
+                <div class="space-y-2">
+                    <label class="block text-sm font-semibold text-gray-700">
+                        Organisasi
+                    </label>
+                    <input type="number" 
+                           name="organisasi" 
+                           required 
+                           placeholder="Jumlah organisasi yang diikuti"
+                           min="0"
+                           class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:border-[#f4ae00] focus:ring-[#f4ae00] transition-all duration-200 text-gray-800 placeholder-gray-400"
+                           >
+                </div>
+
+                <!-- Magang Input -->
+                <div class="space-y-2">
+                    <label class="block text-sm font-semibold text-gray-700">
+                        Magang
+                    </label>
+                    <input type="number" 
+                           name="magang" 
+                           required 
+                           placeholder="Jumlah pengalaman magang"
+                           min="0"
+                           class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:border-[#f4ae00] focus:ring-[#f4ae00] transition-all duration-200 text-gray-800 placeholder-gray-400"
+                           >
+                </div>
+
+                <!-- SKS Input -->
+                <div class="space-y-2">
+                    <label class="block text-sm font-semibold text-gray-700">
+                        SKS
+                    </label>
+                    <input type="number" 
+                           name="sks" 
+                           required 
+                           placeholder="Total SKS yang telah diambil"
+                           min="0"
+                           class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:border-[#f4ae00] focus:ring-[#f4ae00] transition-all duration-200 text-gray-800 placeholder-gray-400"
+                           >
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" 
+                        class="w-full py-4 px-6 text-white font-bold rounded-xl shadow-lg transform transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-4 bg-[#f4ae00] focus:ring-[#f4ae00] focus:ring-opacity-50 mt-6"
+                        >
+                    <div class="flex items-center justify-center space-x-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                        <span>Prediksi Sekarang</span>
+                    </div>
+                </button>
+            </form>
+        </div>
+
+        <!-- Result Card -->
+        {% if result %}
+        <div class="bg-white rounded-2xl shadow-xl p-6 border-l-4" style="border-left-color: #f4ae00;">
+            <div class="flex items-start space-x-3">
+                <div class="flex-shrink-0">
+                    <div class="w-8 h-8 rounded-full flex items-center justify-center bg-[#f4ae00]">
+                        <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="flex-1">
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">Hasil Prediksi</h3>
+                    <div class="text-gray-700 font-medium">{{ result|safe }}</div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <style>
+        input:focus {
+            border-color: #f4ae00 !important;
+            box-shadow: 0 0 0 3px rgba(244, 174, 0, 0.1) !important;
+        }
+        
+        button:hover {
+            background-color: #e09900 !important;
+        }
+        
+        button:active {
+            transform: scale(0.98) !important;
+        }
+    </style>
+</body>
+</html>

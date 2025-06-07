@@ -2,32 +2,32 @@ from flask import Flask, render_template, request
 import torch
 import numpy as np
 import pandas as pd
+import pickle
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 from model import ANFIS
 
 # Inisialisasi Flask app
 app = Flask(__name__)
 
-# === Load dan siapkan data training untuk scaler dan encoder ===
-df = pd.read_csv("Book1.csv")
-
-# Fitur dan label
-features = df[['ipk', 'progress', 'kehadiran', 'organisasi', 'magang', 'sks']].values
-labels = df['kategori'].values
-
-# Standardisasi fitur
-scaler = StandardScaler()
-features_scaled = scaler.fit_transform(features)
-
-# Encode label ke angka
-encoder = LabelEncoder()
-labels_encoded = encoder.fit_transform(labels)
-
 # === Load model ANFIS ===
+with open('../model/scaler.pkl','rb') as f:
+    scaler = pickle.load(f)
+
+with open('../model/label_encoder.pkl','rb') as f:
+    encoder = pickle.load(f)
 model = ANFIS()
-# Jika punya model yang sudah dilatih:
-# model.load_state_dict(torch.load("model.pth"))
-model.eval()
+save_path = '../model/modelANFIS.pt'
+def predict(data):
+    data_scaled = scaler.transform(data)
+    data_tensor = torch.tensor(data_scaled,dtype=torch.float32)
+    model.load_state_dict(torch.load(save_path))
+    model.eval()
+    with torch.no_grad():
+        output = model(data_tensor) 
+        pred_class = torch.argmax(output, dim=1).item()
+        print(pred_class)
+        pred_label = encoder.inverse_transform([pred_class])[0]
+    return pred_label
 
 # === Routing utama ===
 @app.route('/', methods=['GET', 'POST'])
@@ -45,14 +45,11 @@ def index():
 
             # Buat array input dan scaling
             X = np.array([[ipk, progress, kehadiran, organisasi, magang, sks]])
-            X_scaled = scaler.transform(X)
-            X_tensor = torch.tensor(X_scaled, dtype=torch.float32)
+            print(X)
 
             # Inference
-            with torch.no_grad():
-                output = model(X_tensor)
-                pred_class = torch.argmax(output, dim=1).item()
-                kategori = encoder.inverse_transform([pred_class])[0]
+            kategori = predict(X)
+            print(kategori)
 
             result = f"Hasil prediksi kategori: <strong>{kategori}</strong>"
 

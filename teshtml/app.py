@@ -15,7 +15,10 @@ with open('../model/scaler.pkl','rb') as f:
 
 with open('../model/label_encoder.pkl','rb') as f:
     encoder = pickle.load(f)
+# model = ANFIS()
 model = ANFIS()
+# for name, param in model.named_parameters():
+#     print(name, param.shape)
 save_path = '../model/modelANFIS.pt'
 def predict(data):
     data_scaled = scaler.transform(data)

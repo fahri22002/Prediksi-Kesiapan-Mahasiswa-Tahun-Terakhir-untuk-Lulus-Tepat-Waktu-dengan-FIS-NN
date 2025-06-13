@@ -10,26 +10,30 @@ from model import ANFIS
 app = Flask(__name__)
 
 # === Load model ANFIS ===
-with open('../model/scaler.pkl','rb') as f:
+with open('../model/scaler.pkl', 'rb') as f:
     scaler = pickle.load(f)
 
-with open('../model/label_encoder.pkl','rb') as f:
+with open('../model/label_encoder.pkl', 'rb') as f:
     encoder = pickle.load(f)
 model = ANFIS()
 save_path = '../model/modelANFIS.pt'
+
+
 def predict(data):
     data_scaled = scaler.transform(data)
-    data_tensor = torch.tensor(data_scaled,dtype=torch.float32)
+    data_tensor = torch.tensor(data_scaled, dtype=torch.float32)
     model.load_state_dict(torch.load(save_path))
     model.eval()
     with torch.no_grad():
-        output = model(data_tensor) 
+        output = model(data_tensor)
         pred_class = torch.argmax(output, dim=1).item()
         print(pred_class)
         pred_label = encoder.inverse_transform([pred_class])[0]
     return pred_label
 
 # === Routing utama ===
+
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     result = None
@@ -57,6 +61,7 @@ def index():
             result = f"Terjadi kesalahan input: {e}"
 
     return render_template("index.html", result=result)
+
 
 # === Run app ===
 if __name__ == '__main__':

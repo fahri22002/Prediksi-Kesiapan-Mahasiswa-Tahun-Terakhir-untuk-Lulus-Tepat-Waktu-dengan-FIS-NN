@@ -6,21 +6,17 @@ import pickle
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 from model import ANFIS
 
-# Inisialisasi Flask app
 app = Flask(__name__)
 
-# === Load model ANFIS ===
+# === Load model dan scaler ===
 with open('../model/scaler.pkl', 'rb') as f:
     scaler = pickle.load(f)
 
 with open('../model/label_encoder.pkl', 'rb') as f:
     encoder = pickle.load(f)
-# model = ANFIS()
-model = ANFIS()
-# for name, param in model.named_parameters():
-#     print(name, param.shape)
-save_path = '../model/modelANFIS.pt'
 
+model = ANFIS()
+save_path = '../model/modelANFIS.pt'
 
 def predict(data):
     data_scaled = scaler.transform(data)
@@ -30,18 +26,14 @@ def predict(data):
     with torch.no_grad():
         output = model(data_tensor)
         pred_class = torch.argmax(output, dim=1).item()
-        print(pred_class)
         pred_label = encoder.inverse_transform([pred_class])[0]
     return pred_label
-
-# === Routing utama ===
-
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
     result = None
+    chart_data = None
     if request.method == 'POST':
-        # Ambil input dari form
         try:
             ipk = float(request.form['ipk'])
             progress = float(request.form['progress'])
@@ -50,22 +42,15 @@ def index():
             magang = float(request.form['magang'])
             sks = float(request.form['sks'])
 
-            # Buat array input dan scaling
             X = np.array([[ipk, progress, kehadiran, organisasi, magang, sks]])
-            print(X)
-
-            # Inference
             kategori = predict(X)
-            print(kategori)
-
             result = f"Hasil prediksi kategori: <strong>{kategori}</strong>"
+            chart_data = X.tolist()[0]
 
         except Exception as e:
             result = f"Terjadi kesalahan input: {e}"
 
-    return render_template("index.html", result=result)
+    return render_template("index.html", result=result, chart_data=chart_data)
 
-
-# === Run app ===
 if __name__ == '__main__':
     app.run(debug=True)
